@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/project_piec1?useSSL=false&serverTimezone=UTC
     username: root
-    password: Luiz1712#
+    password: senha_do_banco
   application:
     name:
         project_piec1
