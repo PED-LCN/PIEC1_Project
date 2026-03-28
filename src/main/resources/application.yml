@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/project_piec1?useSSL=false&serverTimezone=UTC
+    username: root
+    password: Luiz1712#
+  application:
+    name:
+        project_piec1
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+        hibernate:
+            format_sql: true
