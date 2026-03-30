@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "leituras_consumo")
-public class LeituraConsumo {
+public class Leitura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class LeituraConsumo {
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
-    public LeituraConsumo() {
+    public Leitura() {
     }
 
     @PrePersist
