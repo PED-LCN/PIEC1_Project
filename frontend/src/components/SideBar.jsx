@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
 
   const menuItems = [
-    { path: "/", label: "Dashboard" },
+    { path: "/dashboard", label: "Dashboard" },
     { path: "/products", label: "Produtos" },
     { path: "/consumo", label: "Consumo" },
     { path: "/relatorios", label: "Relatórios" },
@@ -15,13 +15,13 @@ export default function Sidebar() {
   return (
     <aside
       className={`absolute ${
-        open ? "w-64" && "z-10" : "w-20"
-      } min-h-screen bg-gray-900 text-white p-5 transition-all duration-300 `}
+        open ? "w-64 z-10" : "w-20"
+      } min-h-screen bg-gray-900 text-white p-5 transition-all duration-300`}
     >
       {/* Botão toggle */}
       <button
         onClick={() => setOpen(!open)}
-        className="absolute top-6 -right-6 rounded-r-lg bg-red-600 text-white w-6 h-12 flex items-center justify-center  shadow-md hover:bg-gray-600 transition"
+        className="absolute top-6 -right-6 rounded-r-lg bg-red-600 text-white w-6 h-12 flex items-center justify-center shadow-md hover:bg-gray-600 transition"
       >
         {open ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
       </button>
