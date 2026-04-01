@@ -19,15 +19,16 @@ public class ProdutoService {
     public ProdutoResponseDTO cadastrarProduto(ProdutoRequestDTO dto) {
         Produto produto = new Produto();
         produto.setNome(dto.nome());
+        produto.setTipoLeitura(dto.tipoLeitura());
 
         Produto produtoSalvo = produtoRepository.save(produto);
 
-        return new ProdutoResponseDTO(produtoSalvo.getId(), produtoSalvo.getNome());
+        return new ProdutoResponseDTO(produtoSalvo.getId(), produtoSalvo.getNome(), produtoSalvo.getTipoLeitura());
     }
 
     public List<ProdutoResponseDTO> listarTodos() {
         return produtoRepository.findAll().stream().
-                map(p -> new ProdutoResponseDTO(p.getId(), p.getNome())).
+                map(p -> new ProdutoResponseDTO(p.getId(), p.getNome(), p.getTipoLeitura())).
                 collect(Collectors.toList());
     }
 }

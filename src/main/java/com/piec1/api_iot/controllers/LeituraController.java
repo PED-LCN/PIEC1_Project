@@ -2,7 +2,7 @@ package com.piec1.api_iot.controllers;
 
 import com.piec1.api_iot.dto.LeituraRequestDTO;
 import com.piec1.api_iot.dto.LeituraResponseDTO;
-import com.piec1.api_iot.services.LeituraService;
+import com.piec1.api_iot.service.LeituraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

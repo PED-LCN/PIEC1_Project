@@ -13,6 +13,9 @@ public class Produto {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @Column(name = "tipo_leitura", nullable = false, length = 20)
+    private String tipoLeitura;
+
     public Produto() {
     }
 
@@ -31,4 +34,10 @@ public class Produto {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public String getTipoLeitura() {
+        return tipoLeitura;
+    }
+
+    public void setTipoLeitura(String tipoLeitura) {}
 }
