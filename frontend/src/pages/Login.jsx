@@ -1,43 +1,42 @@
-import { useState } from "react";
-import Button from "../components/Button";
-import Input from "../components/Input";
+import React from "react";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  function handleLogin(e) {
-    e.preventDefault();
-
-    console.log("Login:", { email, password });
-  }
-
+export default function Login({ onLogin }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md flex flex-col gap-6"
-      >
-        <h1 className="text-3xl font-bold text-center text-gray-800">Login</h1>
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-96">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          Bem-vindo
+        </h2>
 
-        <Input
-          label="Email"
-          type="email"
-          placeholder="Digite seu email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              E-mail
+            </label>
+            <input
+              type="email"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            />
+          </div>
 
-        <Input
-          label="Senha"
-          type="password"
-          placeholder="Digite sua senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Senha
+            </label>
+            <input
+              type="password"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            />
+          </div>
 
-        <Button text="Entrar" type="submit" />
-      </form>
+          <button
+            onClick={onLogin}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-lg transition-all duration-300 shadow-lg"
+          >
+            Entrar
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
