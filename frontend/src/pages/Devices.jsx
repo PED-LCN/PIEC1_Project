@@ -1,18 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
 import Button from "../components/Button";
 
-export default function Products() {
+export default function Devices() {
   const [showForm, setShowForm] = useState(false);
+  const [devices, setDevices] = useState([]);
 
-  //  vindo do banco de dados
-  const products = [];
+  async function buscarDispositivos() {
+    try {
+      const response = await fetch("http://localhost:3000/dispositivos");
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar dispositivos");
+      }
+
+      const data = await response.json();
+      setDevices(data);
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  }
+
+  useEffect(() => {
+    buscarDispositivos();
+  }, []);
 
   return (
     <div className="flex flex-col gap-6">
       {/* HEADER */}
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800 m-auto">Produtos</h1>
+        <h1 className="text-2xl font-bold text-gray-800 m-auto">
+          Dispositivos
+        </h1>
 
         <Button
           text={showForm ? "Fechar" : "+ Adicionar"}
@@ -24,7 +43,7 @@ export default function Products() {
       {/* FORM */}
       {showForm && (
         <div className="bg-white p-6 rounded-xl shadow">
-          {showForm && <Form onClose={() => setShowForm(false)} />}
+          <Form onClose={() => setShowForm(false)} />
         </div>
       )}
 
@@ -35,22 +54,22 @@ export default function Products() {
             <tr>
               <th className="p-4">ID</th>
               <th className="p-4">Nome</th>
-              <th className="p-4">Preço</th>
+              <th className="p-4">Ações</th>
             </tr>
           </thead>
 
           <tbody>
-            {products.length === 0 ? (
+            {devices.length === 0 ? (
               <tr>
-                <td colSpan="4" className="p-6 text-center text-gray-500">
-                  Nenhum produto cadastrado
+                <td colSpan="3" className="p-6 text-center text-gray-500">
+                  Nenhum dispositivo cadastrado
                 </td>
               </tr>
             ) : (
-              products.map((product) => (
-                <tr key={product.id} className="border-t">
-                  <td className="p-4">{product.id}</td>
-                  <td className="p-4">{product.name}</td>
+              devices.map((device) => (
+                <tr key={device.id} className="border-t">
+                  <td className="p-4">{device.id}</td>
+                  <td className="p-4">{device.name}</td>
                   <td className="p-4">
                     <button className="text-red-600 hover:underline">
                       Excluir

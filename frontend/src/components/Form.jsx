@@ -3,7 +3,7 @@ import Button from "./Button";
 
 export default function Form({ onClose }) {
   const [form, setForm] = useState({
-    product: "",
+    device: "",
     type: "",
     convenient: "",
     description: "",
@@ -34,7 +34,7 @@ export default function Form({ onClose }) {
       >
         {/* HEADER */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Cadastro de produtos</h2>
+          <h2 className="text-2xl font-bold">Cadastro de dispositivos</h2>
 
           {/* BOTÃO FECHAR */}
           <button
@@ -49,9 +49,9 @@ export default function Form({ onClose }) {
         {/* INPUTS */}
         <input
           type="text"
-          name="product"
-          placeholder="Nome do produto"
-          value={form.product}
+          name="device"
+          placeholder="Nome do dispositivo"
+          value={form.device}
           onChange={handleChange}
           className="w-full mb-4 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
         />

@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import Login from "./pages/Login";
 // páginas
 //import Dashboard from "./pages/Dashboard";
-import Products from "./pages/Products";
+import Devices from "./pages/Devices";
 //import Consumo from "./pages/Consumo";
 //import Relatorios from "./pages/Relatorios";
 
 export default function App() {
-  const [possui_login, setPossui_login] = useState(false);
+  const [possui_login, setPossui_login] = useState(false); //teste, depois o processo será pelo backend
   return (
     <BrowserRouter>
       {!possui_login ? (
@@ -26,7 +26,7 @@ export default function App() {
           <div className="flex-1 p-6 bg-gray-100 min-h-screen">
             <Routes>
               <Route path="/" element={<Navigate to="/products" />} />
-              <Route path="/products" element={<Products />} />
+              <Route path="/dispositivos" element={<Devices />} />
             </Routes>
           </div>
         </div>
