@@ -7,7 +7,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { path: "/", label: "Dashboard" },
-    { path: "/products", label: "Produtos" },
+    { path: "/dispositivos", label: "Dispositivos" },
     { path: "/consumo", label: "Consumo" },
     { path: "/relatorios", label: "Relatórios" },
   ];
