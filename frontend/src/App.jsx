@@ -1,12 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/SideBar";
+import NavigationMobile from "./components/NavigationMobile";
 import React, { useState } from "react";
 import Login from "./pages/Login";
-// páginas
-//import Dashboard from "./pages/Dashboard";
 import Devices from "./pages/Devices";
-//import Consumo from "./pages/Consumo";
-//import Relatorios from "./pages/Relatorios";
 
 export default function App() {
   const [possui_login, setPossui_login] = useState(false); //teste, depois o processo será pelo backend
@@ -23,6 +20,7 @@ export default function App() {
       ) : (
         <div className="flex">
           <Sidebar />
+          <NavigationMobile />
           <div className="flex-1 p-6 bg-gray-100 min-h-screen">
             <Routes>
               <Route path="/" element={<Navigate to="/products" />} />

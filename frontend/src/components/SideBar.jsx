@@ -9,12 +9,13 @@ export default function Sidebar() {
     { path: "/", label: "Dashboard" },
     { path: "/dispositivos", label: "Dispositivos" },
     { path: "/consumo", label: "Consumo" },
+    { path: "/notifications", label: "Notificações" },
     { path: "/relatorios", label: "Relatórios" },
   ];
 
   return (
     <aside
-      className={`absolute ${
+      className={`md:block hidden absolute ${
         open ? "w-64 z-10" : "w-20"
       } min-h-screen bg-gray-900 text-white p-5 transition-all duration-300 `}
     >
