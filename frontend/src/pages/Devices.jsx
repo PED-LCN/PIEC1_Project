@@ -26,9 +26,9 @@ export default function Devices() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <div className="flex flex-col gap-6 p-4 md:p-6 max-w-4xl mx-auto">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+      <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
         <h1 className="text-xl md:text-2xl font-bold text-gray-800 text-center md:text-left">
           Dispositivos
         </h1>
@@ -36,19 +36,19 @@ export default function Devices() {
         <Button
           text={showForm ? "Fechar" : "+ Adicionar"}
           onClick={() => setShowForm(!showForm)}
-          className="w-full md:w-auto px-4 py-2 rounded-xl"
+          className="w-full md:w-auto px-4 py-3 md:py-2 rounded-xl"
         />
       </div>
 
       {/* FORM */}
       {showForm && (
-        <div className="bg-white p-4 md:p-6 rounded-xl shadow">
+        <div className="bg-white p-4 md:p-6 rounded-2xl shadow-md">
           <Form onClose={() => setShowForm(false)} />
         </div>
       )}
 
       {/* CONTAINER */}
-      <div className="bg-white rounded-xl shadow p-4 md:p-6">
+      <div className="bg-white rounded-2xl shadow-md p-4 md:p-6">
         {/* DESKTOP */}
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left">
@@ -85,7 +85,7 @@ export default function Devices() {
         </div>
 
         {/* MOBILE */}
-        <div className="flex flex-col gap-3 md:hidden">
+        <div className="flex flex-col gap-4 md:hidden">
           {devices.length === 0 ? (
             <p className="text-center text-gray-500">
               Nenhum dispositivo cadastrado
@@ -94,14 +94,18 @@ export default function Devices() {
             devices.map((device) => (
               <div
                 key={device.id}
-                className="border rounded-xl p-4 flex justify-between items-center"
+                className="border rounded-2xl p-4 shadow-sm flex flex-col gap-3"
               >
                 <div>
-                  <p className="text-sm text-gray-500">ID: {device.id}</p>
-                  <p className="font-semibold">{device.name}</p>
+                  <p className="text-xs text-gray-400">ID: {device.id}</p>
+                  <p className="text-lg font-semibold text-gray-800">
+                    {device.name}
+                  </p>
                 </div>
 
-                <button className="text-red-600 text-sm">Excluir</button>
+                <button className="text-red-600 text-sm font-medium self-end">
+                  Excluir
+                </button>
               </div>
             ))
           )}

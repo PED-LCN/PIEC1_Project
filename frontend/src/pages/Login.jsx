@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Login({ onLogin }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 via-purple-800 to-gray-900">
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-96">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
           Bem-vindo
