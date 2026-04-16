@@ -1,13 +1,13 @@
-package com.piec1.api_iot;
+package com.iot.piec1api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiIotApplicationTests {
+class Piec1ApiApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
