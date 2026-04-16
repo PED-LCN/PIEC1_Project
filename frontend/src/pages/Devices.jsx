@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
 import Button from "../components/Button";
 
 export default function Devices() {
   const [showForm, setShowForm] = useState(false);
   const [devices, setDevices] = useState([]);
+
+  async function buscarDispositivos() {
+    try {
+      const response = await fetch("http://localhost:3000/dispositivos");
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar dispositivos");
+      }
+
+      const data = await response.json();
+      setDevices(data);
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  }
+
+  useEffect(() => {
+    buscarDispositivos();
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6">
@@ -30,7 +49,7 @@ export default function Devices() {
 
       {/* CONTAINER */}
       <div className="bg-white rounded-xl shadow p-4 md:p-6">
-        {/* DESKTOP (tabela) */}
+        {/* DESKTOP */}
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left">
             <thead className="bg-gray-100">
@@ -65,7 +84,7 @@ export default function Devices() {
           </table>
         </div>
 
-        {/* MOBILE (cards) */}
+        {/* MOBILE */}
         <div className="flex flex-col gap-3 md:hidden">
           {devices.length === 0 ? (
             <p className="text-center text-gray-500">
