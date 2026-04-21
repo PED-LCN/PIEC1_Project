@@ -1,40 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import Input from "../components/Input";
 
 export default function Login({ onLogin }) {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setErro("");
+
+    try {
+      const response = await fetch(
+        "https://web-production-2044e.up.railway.app/api/usuarios/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, senha }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        if (data.user?.id) {
+          localStorage.setItem("usuarioId", data.user.id);
+        }
+        onLogin();
+      } else {
+        setErro(data.message || "E-mail ou senha incorretos");
+      }
+    } catch (error) {
+      setErro("Não foi possível conectar ao servidor");
+    }
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-96">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Bem-vindo
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-emerald-950 to-black">
+      <div className="bg-white p-10 rounded-3xl shadow-2xl w-[400px] border border-gray-100">
+        <h2 className="text-3xl font-extrabold text-center text-emerald-900 mb-2">
+          Eco Monitor
         </h2>
+        <p className="text-center text-gray-500 mb-8 text-sm">
+          Acesse sua conta para gerenciar dispositivos
+        </p>
 
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              E-mail
-            </label>
-            <input
-              type="email"
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-            />
+        {erro && (
+          <div className="bg-red-50 border-l-4 border-red-500 p-3 mb-6 rounded-r-md">
+            <p className="text-red-600 text-xs font-semibold">{erro}</p>
           </div>
+        )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Senha
-            </label>
-            <input
-              type="password"
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-            />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <Input
+            label="E-mail"
+            type="email"
+            placeholder="seu@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <Input
+            label="Senha"
+            type="password"
+            placeholder="••••••••"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+
+          <div className="pt-2">
+            <Button text="Entrar" type="submit" className="w-full" />
           </div>
+        </form>
 
-          <button
-            onClick={onLogin}
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-lg transition-all duration-300 shadow-lg"
-          >
-            Entrar
-          </button>
+        <div className="mt-8 text-center border-t border-gray-100 pt-6">
+          <p className="text-sm text-gray-600">
+            Ainda não tem acesso?{" "}
+            <button
+              onClick={() => navigate("/register")}
+              className="text-emerald-600 font-bold hover:text-emerald-800 transition-colors"
+            >
+              Criar conta gratuita
+            </button>
+          </p>
         </div>
       </div>
     </div>
