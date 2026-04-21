@@ -30,9 +30,19 @@ export default function Login({ onLogin }) {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        if (data.user?.id) {
-          localStorage.setItem("usuarioId", data.user.id);
+
+        // Verifica todos os caminhos possíveis para o ID
+        const idParaSalvar = data.user?.id || data.usuario?.id || data.id;
+
+        if (idParaSalvar) {
+          localStorage.setItem("usuarioId", idParaSalvar);
+        } else {
+          console.error(
+            "ID do usuário não encontrado na resposta da API",
+            data
+          );
         }
+
         onLogin();
       } else {
         setErro(data.message || "E-mail ou senha incorretos");
