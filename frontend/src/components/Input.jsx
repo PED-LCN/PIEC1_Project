@@ -18,7 +18,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         className={`px-4 py-3 rounded-xl border border-gray-300 
-          focus:outline-none focus:ring-2 focus:ring-red-500 
+          focus:outline-none focus:ring-2 focus:ring-emerald-800
           transition-all duration-300 ${className}`}
       />
     </div>

@@ -6,11 +6,25 @@ export default function Devices() {
   const [showForm, setShowForm] = useState(false);
   const [devices, setDevices] = useState([]);
 
+  const usuarioId = 1;
+  const token = localStorage.getItem("token");
+
   async function buscarDispositivos() {
     try {
-      const response = await fetch("http://localhost:3000/dispositivos");
+      const response = await fetch(
+        `http://web-production-2044e.up.railway.app/api/dispositivos/usuario/${usuarioId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
+        // Caso o token seja inválido (401), você poderia redirecionar para o Login
+        if (response.status === 401) console.error("Sessão expirada");
         throw new Error("Erro ao buscar dispositivos");
       }
 
@@ -22,8 +36,10 @@ export default function Devices() {
   }
 
   useEffect(() => {
-    buscarDispositivos();
-  }, []);
+    if (token && usuarioId) {
+      buscarDispositivos();
+    }
+  }, [usuarioId]); // Executa sempre que o ID do usuário mudar
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6 max-w-4xl mx-auto">
@@ -43,7 +59,11 @@ export default function Devices() {
       {/* FORM */}
       {showForm && (
         <div className="bg-white p-4 md:p-6 rounded-2xl shadow-md">
-          <Form onClose={() => setShowForm(false)} />
+          {/* Passamos buscarDispositivos para o Form para atualizar a lista após criar um novo */}
+          <Form
+            onClose={() => setShowForm(false)}
+            onSuccess={buscarDispositivos}
+          />
         </div>
       )}
 
@@ -71,7 +91,8 @@ export default function Devices() {
                 devices.map((device) => (
                   <tr key={device.id} className="border-t">
                     <td className="p-4">{device.id}</td>
-                    <td className="p-4">{device.name}</td>
+                    <td className="p-4">{device.nome}</td>{" "}
+                    {/* Ajustado para 'nome' conforme padrão PT-BR da rota */}
                     <td className="p-4">
                       <button className="text-red-600 hover:underline">
                         Excluir
@@ -99,7 +120,7 @@ export default function Devices() {
                 <div>
                   <p className="text-xs text-gray-400">ID: {device.id}</p>
                   <p className="text-lg font-semibold text-gray-800">
-                    {device.name}
+                    {device.nome}
                   </p>
                 </div>
 
