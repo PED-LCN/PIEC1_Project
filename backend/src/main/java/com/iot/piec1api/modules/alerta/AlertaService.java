@@ -3,18 +3,19 @@ package com.iot.piec1api.modules.alerta;
 import com.iot.piec1api.modules.alerta.dtos.AlertaResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AlertaService {
 
-    @Autowired
-    private AlertaRepository alertaRepository;
+    private final AlertaRepository alertaRepository;
 
+    // Listar alertas que ainda não foram vistos pelo usuário
     public List<AlertaResponseDTO> listarAlertasAtivos(Integer dispositivoId) {
         return alertaRepository.findByDispositivoIdAndLidoFalse(dispositivoId).stream()
                 .map(a -> new AlertaResponseDTO(
