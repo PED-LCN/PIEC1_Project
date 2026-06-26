@@ -8,14 +8,42 @@ import Devices from "./pages/Devices";
 
 export default function App() {
   const [possui_login, setPossui_login] = useState(
-    !!localStorage.getItem("token")
+    !!localStorage.getItem("token"),
   );
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("usuarioId");
-    setPossui_login(false);
-  };
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuarioId");
+      setPossui_login(false);
+    },
+    [];
+
+  useEffect(() => {
+    if (!possui_login) return;
+    const msRestantes = getTempoRestanteToken();
+    if (msRestantes <= 0) {
+      handleLogout();
+      return;
+    }
+    const timer = setTimeout(() => {
+      handleLogout();
+    }, msRestantes);
+
+    return () => clearTimeout(timer);
+  }, [possui_login, handleLogout]);
+  useEffect(() => {
+    function handlevisibilityChange() {
+      if (document.visibilityState === "visible" && !isTokenValido()) {
+        handleLogout();
+      }
+    }
+
+    document.addEventListener("visibilitychange", handlevisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handlevisibilityChange);
+    };
+  }, [handleLogout]);
 
   return (
     <BrowserRouter>
