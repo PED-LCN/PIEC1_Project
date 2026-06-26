@@ -5,20 +5,18 @@ import com.iot.piec1api.modules.dispositivo.dtos.DispositivoResponseDTO;
 import com.iot.piec1api.modules.usuario.Usuario;
 import com.iot.piec1api.modules.usuario.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DispositivoService {
 
-    @Autowired
-    private DispositivoRepository dispositivoRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final DispositivoRepository dispositivoRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public DispositivoResponseDTO cadastrar(DispositivoRequestDTO dto) {
         Usuario dono = usuarioRepository.findById(dto.usuarioId())
@@ -38,7 +36,7 @@ public class DispositivoService {
                 dispositivoSalvo.getNome(),
                 dispositivoSalvo.getTipoLeitura(),
                 dispositivoSalvo.getLimiteAlerta(),
-                dispositivoSalvo.getId()
+                dispositivoSalvo.getUsuario().getId()
 
         );
     }

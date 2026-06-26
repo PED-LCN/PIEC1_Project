@@ -8,23 +8,19 @@ import com.iot.piec1api.modules.leitura.dtos.LeituraRequestDTO;
 import com.iot.piec1api.modules.leitura.dtos.LeituraResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class LeituraService {
 
-    @Autowired
-    private LeituraRepository leituraRepository;
-
-    @Autowired
-    private DispositivoRepository dispositivoRepository;
-
-    @Autowired
-    private AlertaRepository alertaRepository;
+    private final LeituraRepository leituraRepository;
+    private final DispositivoRepository dispositivoRepository;
+    private final AlertaRepository alertaRepository;
 
     @Transactional
     public LeituraResponseDTO receberLeitura(LeituraRequestDTO dto) {
@@ -51,19 +47,19 @@ public class LeituraService {
                 leituraSalva.getId(),
                 leituraSalva.getValorLeitura(),
                 leituraSalva.getDataHora(),
-                leituraSalva.getId()
+                leituraSalva.getDispositivo().getId()
         );
     }
 
+    // LISTAR HISTÓRICO PARA O GRÁFICO DO REACT
     public List<LeituraResponseDTO> buscarHistoricoDoDispositivo(Integer dispositivoId) {
         return leituraRepository.findByDispositivoId(dispositivoId).stream()
                 .map(l -> new LeituraResponseDTO(
                         l.getId(),
                         l.getValorLeitura(),
                         l.getDataHora(),
-                        l.getId()
+                        l.getDispositivo().getId()
                 ))
                 .collect(Collectors.toList());
     }
 }
-
