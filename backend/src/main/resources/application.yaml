@@ -19,3 +19,11 @@ api:
     token:
       secret: ${JWT_SECRET:minha_chave_super_secreta_para_gerar_tokens_123}
 
+# Adicionar no application.yaml abaixo das configurações existentes
+
+mqtt:
+  broker: tcp://broker.hivemq.com:1883
+  clientId: spring-hub-ioe-backend
+  topic: hubioe/residencia/leituras
+  dispositivoEnergiaId: 1
+  dispositivoAguaId: 2
