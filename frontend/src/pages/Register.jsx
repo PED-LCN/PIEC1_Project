@@ -20,7 +20,7 @@ export default function Register({ onNavigateToLogin }) {
 
     try {
       const response = await fetch(
-        "https://web-production-2044e.up.railway.app/api/usuarios",
+        "https://piec1-api.onrender.com/api/usuarios",
         {
           method: "POST",
           headers: {

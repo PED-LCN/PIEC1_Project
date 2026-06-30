@@ -14,13 +14,16 @@ export default function Sidebar() {
   const [open, setOpen] = useState(true);
 
   const menuItems = [
-    { path: "/", label: "Dashboard", icon: <LayoutDashboard size={20} /> },
+    {
+      path: "/dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
     {
       path: "/dispositivos",
       label: "Dispositivos",
       icon: <Tablet size={20} />,
     },
-    { path: "/consumo", label: "Consumo", icon: <Zap size={20} /> },
     { path: "/notifications", label: "Notificações", icon: <Bell size={20} /> },
     { path: "/relatorios", label: "Relatórios", icon: <FileText size={20} /> },
   ];
