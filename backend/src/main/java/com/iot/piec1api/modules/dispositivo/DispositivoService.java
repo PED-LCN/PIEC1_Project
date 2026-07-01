@@ -7,7 +7,9 @@ import com.iot.piec1api.modules.usuario.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,7 @@ public class DispositivoService {
     private final DispositivoRepository dispositivoRepository;
     private final UsuarioRepository usuarioRepository;
 
+    @Transactional
     public DispositivoResponseDTO cadastrar(DispositivoRequestDTO dto) {
         Usuario dono = usuarioRepository.findById(dto.usuarioId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + dto.usuarioId() + " não foi encontrado."));
@@ -26,8 +29,12 @@ public class DispositivoService {
         dispositivo.setNome(dto.nome());
         dispositivo.setTipoLeitura(dto.tipoLeitura());
         dispositivo.setUsuario(dono);
-
         dispositivo.setLimiteAlerta(dto.limiteAlerta() != null ? dto.limiteAlerta() : 100.0);
+
+        if (dono.getDispositivos() == null) {
+            dono.setDispositivos(new ArrayList<>());
+        }
+        dono.getDispositivos().add(dispositivo);
 
         Dispositivo dispositivoSalvo = dispositivoRepository.save(dispositivo);
 
@@ -37,12 +44,11 @@ public class DispositivoService {
                 dispositivoSalvo.getTipoLeitura(),
                 dispositivoSalvo.getLimiteAlerta(),
                 dispositivoSalvo.getUsuario().getId()
-
         );
     }
 
     public List<DispositivoResponseDTO> listarPorUsuario(Integer usuarioId) {
-        return dispositivoRepository.findByUsuarioId(usuarioId).stream()
+        return dispositivoRepository.findByUsuario_Id(usuarioId).stream()
                 .map(d -> new DispositivoResponseDTO(
                         d.getId(),
                         d.getNome(),

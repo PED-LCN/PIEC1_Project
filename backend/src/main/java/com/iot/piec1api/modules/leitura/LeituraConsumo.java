@@ -1,6 +1,5 @@
 package com.iot.piec1api.modules.leitura;
 
-
 import com.iot.piec1api.modules.dispositivo.Dispositivo;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "leituras")
+@Table(name = "leituras_consumo")
 @Getter
 @Setter
 @NoArgsConstructor

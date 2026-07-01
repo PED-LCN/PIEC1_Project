@@ -15,21 +15,23 @@ public class AlertaService {
 
     private final AlertaRepository alertaRepository;
 
-    // Listar alertas que ainda não foram vistos pelo usuário
-    public List<AlertaResponseDTO> listarAlertasAtivos(Integer dispositivoId) {
-        return alertaRepository.findByDispositivoIdAndLidoFalse(dispositivoId).stream()
+    // Recebe também o usuarioId para garantir a segurança
+    public List<AlertaResponseDTO> listarAlertasAtivos(Integer dispositivoId, Integer usuarioId) {
+        return alertaRepository.findByDispositivoIdAndDispositivo_Usuario_IdAndLidoFalse(dispositivoId, usuarioId).stream()
                 .map(a -> new AlertaResponseDTO(
                         a.getId(),
                         a.getMensagem(),
                         a.getDataHora(),
                         a.getLido(),
                         a.getDispositivo().getId()
-                )).collect((Collectors.toList()));
+                )).collect(Collectors.toList());
     }
 
     @Transactional
-    public void marcarComoLido(Integer alertaId) {
-        Alerta alerta = alertaRepository.findById(alertaId).orElseThrow(() -> new EntityNotFoundException("Alerta com ID " + alertaId + " não encontrado."));
+    public void marcarComoLido(Integer alertaId, Integer usuarioId) {
+        // Usa a nova query do repository para garantir que o utilizador não marca o alerta de outro como lido
+        Alerta alerta = alertaRepository.findByIdAndDispositivo_Usuario_Id(alertaId, usuarioId)
+                .orElseThrow(() -> new EntityNotFoundException("Alerta com ID " + alertaId + " não encontrado ou não tem permissão de acesso."));
 
         alerta.setLido(true);
         alertaRepository.save(alerta);

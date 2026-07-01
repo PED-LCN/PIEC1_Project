@@ -3,13 +3,14 @@ spring:
     name: project-piec1
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQLHOST:${DB_HOST:localhost}}:${MYSQLPORT:${DB_PORT:3306}}/${MYSQLDATABASE:${DB_NAME:project_piec1}}?createDatabaseIfNotExist=true&useSSL=${DB_USE_SSL:false}&allowPublicKeyRetrieval=true&serverTimezone=UTC}
-    username: ${SPRING_DATASOURCE_USERNAME:${MYSQLUSER:${DB_USER:root}}}
-    password: ${SPRING_DATASOURCE_PASSWORD:${MYSQLPASSWORD}}
+    url: jdbc:mysql://${DB_HOST:mysql-1e0862a3-erp-agro.k.aivencloud.com}:${DB_PORT:15530}/${DB_NAME:defaultdb}?sslMode=REQUIRED
+    username: ${SPRING_DATASOURCE_USERNAME:${DB_USER:avnadmin}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD}}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
     show-sql: ${SPRING_JPA_SHOW_SQL:true}
 
   flyway:

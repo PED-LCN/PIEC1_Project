@@ -3,13 +3,17 @@ package com.iot.piec1api.modules.leitura;
 import com.iot.piec1api.config.security.DeviceAuthService;
 import com.iot.piec1api.modules.leitura.dtos.LeituraRequestDTO;
 import com.iot.piec1api.modules.leitura.dtos.LeituraResponseDTO;
+import com.iot.piec1api.modules.usuario.Usuario;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/leituras")
@@ -19,10 +23,6 @@ public class LeituraController {
     private final LeituraService leituraService;
     private final DeviceAuthService deviceAuthService;
 
-    // -----------------------------------------------------------------------
-    // ENDPOINT: ESP32 envia dados dos sensores
-    // Tipo: POST | URL: http://localhost:8080/api/leituras
-    // -----------------------------------------------------------------------
     @PostMapping
     public ResponseEntity<LeituraResponseDTO> registrarLeitura(
             @RequestHeader(name = "X-DEVICE-KEY", required = false) String deviceKey,
@@ -33,13 +33,15 @@ public class LeituraController {
         return ResponseEntity.status(HttpStatus.CREATED).body(salva);
     }
 
-    // -----------------------------------------------------------------------
-    // ENDPOINT: Front-end (React) busca os dados para desenhar o gráfico
-    // Tipo: GET | URL: http://localhost:8080/api/leituras/dispositivo/1
-    // -----------------------------------------------------------------------
     @GetMapping("/dispositivo/{dispositivoId}")
-    public ResponseEntity<List<LeituraResponseDTO>> listarHistorico(@PathVariable Integer dispositivoId) {
-        List<LeituraResponseDTO> historico = leituraService.buscarHistoricoDoDispositivo(dispositivoId);
+    public ResponseEntity<Page<LeituraResponseDTO>> listarHistorico(
+            @PathVariable("dispositivoId") Integer dispositivoId,
+            @PageableDefault(size = 50, sort = "dataHora", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Usuario utilizadorLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // O service e o repository devem ser atualizados para receber este ID
+        Page<LeituraResponseDTO> historico = leituraService.buscarHistoricoDoDispositivo(dispositivoId, utilizadorLogado.getId(), pageable);
         return ResponseEntity.ok(historico);
     }
 }

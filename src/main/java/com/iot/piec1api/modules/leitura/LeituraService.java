@@ -7,12 +7,11 @@ import com.iot.piec1api.modules.dispositivo.DispositivoRepository;
 import com.iot.piec1api.modules.leitura.dtos.LeituraRequestDTO;
 import com.iot.piec1api.modules.leitura.dtos.LeituraResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,10 +34,8 @@ public class LeituraService {
 
         if (dto.valorLeitura() > dispositivo.getLimiteAlerta()) {
             Alerta alerta = new Alerta();
-            alerta.setMensagem(
-                    "Atenção! Consumo ultrapassou o limite de "
-                            + dispositivo.getLimiteAlerta() +
-                            " no dispositivo: " + dispositivo.getNome());
+            alerta.setMensagem("Atenção! Consumo ultrapassou o limite de "
+                    + dispositivo.getLimiteAlerta() + " no dispositivo: " + dispositivo.getNome());
             alerta.setDispositivo(dispositivo);
             alertaRepository.save(alerta);
         }
@@ -51,15 +48,15 @@ public class LeituraService {
         );
     }
 
-    // LISTAR HISTÓRICO PARA O GRÁFICO DO REACT
-    public List<LeituraResponseDTO> buscarHistoricoDoDispositivo(Integer dispositivoId) {
-        return leituraRepository.findByDispositivoId(dispositivoId).stream()
+    @Transactional(readOnly = true)
+    public Page<LeituraResponseDTO> buscarHistoricoDoDispositivo(Integer dispositivoId, Integer usuarioId, Pageable pageable) {
+        // Agora chamamos o novo método do repository passando o usuarioId
+        return leituraRepository.findByDispositivoIdAndDispositivo_Usuario_Id(dispositivoId, usuarioId, pageable)
                 .map(l -> new LeituraResponseDTO(
                         l.getId(),
                         l.getValorLeitura(),
                         l.getDataHora(),
                         l.getDispositivo().getId()
-                ))
-                .collect(Collectors.toList());
+                ));
     }
 }

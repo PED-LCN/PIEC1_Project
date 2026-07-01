@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Integer> {
-    List<Dispositivo> findByUsuarioId(Integer id);
+    List<Dispositivo> findByUsuario_Id(Integer id);
 }
