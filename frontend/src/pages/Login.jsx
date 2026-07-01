@@ -16,7 +16,7 @@ export default function Login({ onLogin }) {
 
     try {
       const response = await fetch(
-        "https://web-production-2044e.up.railway.app/api/usuarios/login",
+        "https://piec1-api.onrender.com/api/usuarios/login",
         {
           method: "POST",
           headers: {
@@ -32,7 +32,7 @@ export default function Login({ onLogin }) {
         localStorage.setItem("token", data.token);
 
         // Verifica todos os caminhos possíveis para o ID
-        const idParaSalvar = data.user?.id || data.usuario?.id || data.id;
+        const idParaSalvar = data.usuarioId;
 
         if (idParaSalvar) {
           localStorage.setItem("usuarioId", idParaSalvar);
